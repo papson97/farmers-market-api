@@ -1,0 +1,311 @@
+{
+  "info": {
+    "name": "Farmers Market API",
+    "description": "API for Farmers Market Platform - Côte d'Ivoire",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:8000/api"
+    },
+    {
+      "key": "token",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var json = pm.response.json();",
+                  "pm.collectionVariables.set('token', json.token);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/login",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\": \"admin@test.com\", \"password\": \"123456\"}"
+            }
+          }
+        },
+        {
+          "name": "Me",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/me",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}]
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/logout",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "List Users",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/users",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}]
+          }
+        },
+        {
+          "name": "Create Supervisor",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/supervisors",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Superviseur 2\", \"email\": \"supervisor2@test.com\", \"password\": \"123456\"}"
+            }
+          }
+        },
+        {
+          "name": "Create Operator",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/operators",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Operateur 2\", \"email\": \"operator2@test.com\", \"password\": \"123456\"}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Categories",
+      "item": [
+        {
+          "name": "List Categories",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/categories",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}]
+          }
+        },
+        {
+          "name": "Create Category",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/categories",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Semences\", \"parent_id\": null}"
+            }
+          }
+        },
+        {
+          "name": "Create Sub Category",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/categories",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Semences de Maïs\", \"parent_id\": 3}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "List Products",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/products",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}]
+          }
+        },
+        {
+          "name": "Create Product",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/products",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Glyphosate\", \"category_id\": 2, \"price_fcfa\": 7500, \"description\": \"Herbicide systémique\"}"
+            }
+          }
+        },
+        {
+          "name": "Get Product",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/products/1",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Farmers",
+      "item": [
+        {
+          "name": "List Farmers",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/farmers",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}]
+          }
+        },
+        {
+          "name": "Search Farmer",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/farmers/search?q=FARM001",
+              "query": [{"key": "q", "value": "FARM001"}]
+            },
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}]
+          }
+        },
+        {
+          "name": "Get Farmer",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/farmers/1",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}]
+          }
+        },
+        {
+          "name": "Create Farmer",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/farmers",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"identifier\": \"FARM004\", \"firstname\": \"Yao\", \"lastname\": \"Kouassi\", \"phone\": \"0708090004\", \"credit_limit_fcfa\": 60000}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Transactions",
+      "item": [
+        {
+          "name": "List Transactions",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/transactions",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}]
+          }
+        },
+        {
+          "name": "Cash Transaction",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/transactions",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"farmer_id\": 1, \"payment_method\": \"cash\", \"items\": [{\"product_id\": 1, \"quantity\": 2}, {\"product_id\": 2, \"quantity\": 1}]}"
+            }
+          }
+        },
+        {
+          "name": "Credit Transaction",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/transactions",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"farmer_id\": 1, \"payment_method\": \"credit\", \"items\": [{\"product_id\": 1, \"quantity\": 2}]}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Debts & Repayments",
+      "item": [
+        {
+          "name": "Get Farmer Debts",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/farmers/1/debts",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}]
+          }
+        },
+        {
+          "name": "Get Farmer Repayments",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/farmers/1/repayments",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}]
+          }
+        },
+        {
+          "name": "Record Repayment",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/repayments",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"farmer_id\": 1, \"kg_received\": 10}"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
